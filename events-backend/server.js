@@ -7,6 +7,7 @@ import db from "./db.js";
 
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET || "secret123";
+const PORT = process.env.PORT || 4000;
 
 const app = express();
 app.use(cors());
@@ -294,6 +295,7 @@ const ensureAdmin = async () => {
 ensureAdmin();
 
 // ---------- SERVER ----------
-app.listen(4000, () =>
-  console.log("✅ Server running on http://localhost:4000")
-);
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
+});
+
