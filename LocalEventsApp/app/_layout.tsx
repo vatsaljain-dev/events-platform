@@ -1,19 +1,26 @@
 import React, { useEffect, useState, createContext } from "react";
 import { Stack } from "expo-router";
-import { Provider as PaperProvider , DefaultTheme} from "react-native-paper";
+import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import API_URL from "../utils/config";
-import { Alert, Platform, StatusBar } from "react-native";
+import {
+  Alert,
+  Platform,
+  StatusBar,
+  ActivityIndicator,
+  View,
+} from "react-native";
 import * as Notifications from "expo-notifications";
 import * as Device from "expo-device";
 
 Notifications.setNotificationHandler({
-  handleNotification: async (): Promise<Notifications.NotificationBehavior> => ({
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-    shouldShowBanner: true,
-    shouldShowList: true,
-  }),
+  handleNotification:
+    async (): Promise<Notifications.NotificationBehavior> => ({
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+      shouldShowBanner: true,
+      shouldShowList: true,
+    }),
 });
 
 export async function registerForPushNotificationsAsync(): Promise<void> {
@@ -25,7 +32,8 @@ export async function registerForPushNotificationsAsync(): Promise<void> {
       lightColor: "#FF231F7C",
     });
   } else {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
 
     if (existingStatus !== "granted") {
@@ -44,7 +52,8 @@ export async function registerForPushNotificationsAsync(): Promise<void> {
       }
       return;
     }
-  }}
+  }
+}
 
 export interface User {
   id: string;
@@ -60,6 +69,7 @@ interface AppContextType {
   currentUser: User | null;
   setCurrentUser: (u: User | null) => void;
 }
+
 const lightTheme = {
   ...DefaultTheme,
   colors: {
@@ -69,17 +79,15 @@ const lightTheme = {
   },
 };
 
-
-
-
 export const AppContext = createContext<AppContextType>({} as AppContextType);
 
 export default function RootLayout() {
-   useEffect(() => {
-    registerForPushNotificationsAsync();
-  }, []);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    registerForPushNotificationsAsync();
+  }, []);
 
   useEffect(() => {
     const restoreUser = async () => {
@@ -102,24 +110,35 @@ export default function RootLayout() {
     restoreUser();
   }, []);
 
+  if (loading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <ActivityIndicator size="large" color="#6200ee" />
+      </View>
+    );
+  }
+
   return (
     <AppContext.Provider value={{ currentUser, setCurrentUser }}>
-            <StatusBar barStyle={'dark-content'} />   
+      <StatusBar barStyle={"dark-content"} />
       <PaperProvider theme={lightTheme}>
-   <Stack screenOptions={{ headerShown: false }}>
-  {currentUser
-    ? [
-        <Stack.Screen key="tabs" name="tabs" />,
-      ]
-    : [
-        <Stack.Screen key="login" name="login" />,
-        <Stack.Screen key="signup" name="signup" />
-      ]
-  }
-</Stack>
-
-
-
+        <Stack screenOptions={{ headerShown: false }}>
+          {currentUser ? (
+            <Stack.Screen name="tabs" />
+          ) : (
+            <>
+              <Stack.Screen name="login" />
+              <Stack.Screen name="signup" />
+            </>
+          )}
+        </Stack>
       </PaperProvider>
     </AppContext.Provider>
   );

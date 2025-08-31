@@ -16,7 +16,9 @@ export default function Login() {
   const { setCurrentUser } = useContext(AppContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {}
+  );
   const router = useRouter();
 
   const validate = () => {
