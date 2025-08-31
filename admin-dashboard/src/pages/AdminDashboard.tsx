@@ -35,18 +35,21 @@ export default function AdminDashboard() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if (token) {
+    if (!token) return;
+    if (section === "events") {
       fetch(`${API_URL}/events`)
         .then((res) => res.json())
         .then(setEvents);
+    }
 
+    if (section === "users") {
       fetch(`${API_URL}/users`, {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => res.json())
         .then(setUsers);
     }
-  }, [token]);
+  }, [token, section]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
