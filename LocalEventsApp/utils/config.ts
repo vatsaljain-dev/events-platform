@@ -1,3 +1,2 @@
-const API_URL = "http://192.168.29.213:4000";
-
+const API_URL = "https://events-platform-backend-mkn0.onrender.com";
 export default API_URL;
