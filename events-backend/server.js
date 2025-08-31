@@ -21,12 +21,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use("/auth", authRoutes);
-app.use("/events", eventRoutes);
-app.use("/users", userRoutes);
-app.use("/reviews", reviewRoutes);
-app.use("/chat", chatRoutes);
-app.use("/admin", adminRoutes);
+app.use("/", authRoutes);
+app.use("/", eventRoutes);
+app.use("/", userRoutes);
+app.use("/", reviewRoutes);
+app.use("/", chatRoutes);
+app.use("/", adminRoutes);
 
 // Ensure default admin
 ensureAdmin();
