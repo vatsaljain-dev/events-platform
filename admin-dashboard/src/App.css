@@ -26,6 +26,7 @@ body,
   justify-content: center;
   height: 100vh;
   background: #f0f2f5 !important;
+  padding: 15px;
 }
 
 .form-box {
@@ -92,6 +93,7 @@ body,
   display: flex;
   height: 100vh;
   width: 100%;
+  overflow: hidden;
 }
 
 /* Sidebar */
@@ -103,6 +105,7 @@ body,
   display: flex;
   flex-direction: column;
   gap: 12px;
+  transition: all 0.3s ease-in-out;
 }
 
 .sidebar h2 {
@@ -162,6 +165,8 @@ body,
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .card button {
@@ -199,7 +204,7 @@ body,
   margin-right: auto;
   margin-left: auto;
   max-width: 400px;
-  }
+}
 
 .create-admin h2 {
   margin-bottom: 20px; 
@@ -207,7 +212,6 @@ body,
   font-size: 20px;
   color: #333;
 }
-
 
 .create-admin input {
   width: 100%;
@@ -296,4 +300,75 @@ body,
 
 .event-card button.delete:hover {
   background: #b52a37;
+}
+
+/* ================== RESPONSIVE ================== */
+@media (max-width: 992px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 10px;
+  }
+
+  .sidebar h2 {
+    display: none;
+  }
+
+  .sidebar button {
+    flex: 1;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .main-content {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-box {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .create-admin {
+    max-width: 90%;
+  }
+
+  .user-grid,
+  .event-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-box h1 {
+    font-size: 22px;
+  }
+
+  .form-box input,
+  .form-box button {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .sidebar button {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .main-content h1 {
+    font-size: 20px;
+  }
 }
