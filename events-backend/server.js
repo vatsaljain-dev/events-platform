@@ -26,7 +26,7 @@ app.use("/", eventRoutes);
 app.use("/", userRoutes);
 app.use("/", reviewRoutes);
 app.use("/", chatRoutes);
-app.use("/", adminRoutes);
+app.use("/admin", adminRoutes);
 
 // Ensure default admin
 ensureAdmin();
