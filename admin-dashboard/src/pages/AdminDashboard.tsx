@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import AdminSignupForm from "../components/AdminSignupForm";
 import API_URL from "../config";
+import { useNavigate } from "react-router-dom";
 
 type Review = {
   userId: string;
@@ -33,6 +34,7 @@ export default function AdminDashboard() {
   const [events, setEvents] = useState<Event[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!token) return;
@@ -54,7 +56,7 @@ export default function AdminDashboard() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    window.location.href = "/login";
+    navigate("/login")
   };
 
   const fetchEvents = async () => {
