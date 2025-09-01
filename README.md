@@ -8,18 +8,28 @@ A full-stack project with **Backend API**, **Frontend Dashboard**, and **Mobile 
 
 This project consists of three parts:
 
-1. **Backend** – Node.js/Express API
-   - Handles events, users, and chat data.
-   - Provides REST endpoints for the app & dashboard.
-   - ✅ Already hosted at: https://events-platform-backend-mkn0.onrender.com
+1. **Backend** – Node.js/Express API  
+   - Handles events, users, and chat data.  
+   - Provides REST endpoints for the app & dashboard.  
+   - ✅ Already hosted at: https://events-platform-backend-mkn0.onrender.com  
 
-2. **Frontend (Admin Dashboard)** – React.js Web App
-   - Used by admins to manage events, users, and create admins.
-   - ✅ Already hosted at: https://localeventsapp-admin-dashboard.netlify.app
+2. **Frontend (Admin Dashboard)** – React.js Web App  
+   - Used by admins to manage events, users, and create admins.  
+   - ✅ Already hosted at: https://localeventsapp-admin-dashboard.netlify.app  
 
-3. **Mobile App (LocalEventsApp)** – React Native + Expo
-   - User-facing app to view, create, and chat about events.
-   - ⚡ Requires local setup
+3. **Mobile App (LocalEventsApp)** – React Native + Expo  
+   - User-facing app to view, create, and chat about events.  
+   - ⚡ Requires local setup  
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/vatsaljain-dev/events-platform.git
+cd events-platform
+```
 
 ---
 
@@ -27,7 +37,7 @@ This project consists of three parts:
 
 By default, the backend and dashboard are already hosted, but you can also run them locally for development.
 
-### ▶️ 1. Run Backend Locally
+### ▶️ Run Backend Locally
 1. Navigate to the backend folder:
    ```bash
    cd events-backend
@@ -45,11 +55,11 @@ By default, the backend and dashboard are already hosted, but you can also run t
    http://localhost:4000
    ```
 
-✅ Use `http://192.168.x.x:4000` (your LAN IP) when connecting from **mobile app on Expo Go And Admin Dashboard**.
+✅ Use `http://192.168.x.x:4000` (your LAN IP) when connecting from **mobile app on Expo Go** or **Admin Dashboard**.
 
 ---
 
-### ▶️ 2. Run Admin Dashboard Locally
+### ▶️ Run Admin Dashboard Locally
 1. Navigate to the dashboard folder:
    ```bash
    cd admin-dashboard
@@ -69,27 +79,24 @@ By default, the backend and dashboard are already hosted, but you can also run t
 
 ---
 
-## 🚀 Getting Started (Mobile App)
+## 📱 Running the Mobile App (Expo)
 
 Since backend and dashboard are already deployed, you only need to set up the **mobile app** locally.
 
-### 1. Clone the repository
-```bash
-git clone https://github.com/vatsaljain-dev/events-platform.git
-cd LocalEventsApp
-```
-
-### 2. Install dependencies
-```bash
-npm install
-# or
-yarn install
-```
-
-### 3. Start the app
-```bash
-npx expo start
-```
+1. Navigate to the app folder:
+   ```bash
+   cd LocalEventsApp
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+3. Start the app:
+   ```bash
+   npx expo start
+   ```
 
 This will start the Expo development server.  
 Use **Expo Go** app on your phone or an emulator to preview.
@@ -130,11 +137,11 @@ export default API_URL;
 
 ---
 
-⚠️ **Important Notes:**
+⚠️ **Important Notes:**  
 - Always include `:4000` when using the local backend since it runs on **port 4000**.  
 - Replace `192.168.x.x` with your actual **LAN IP** (find using `ifconfig` / `ipconfig`).  
 - On **Expo Go**, you must use your **LAN IP**, not `localhost` or `127.0.0.1`.  
-- For production builds, always use the **hosted backend** URL.
+- For production builds, always use the **hosted backend** URL.  
 
 ---
 
@@ -151,11 +158,11 @@ events-platform/
 
 ## 🛠️ Tech Stack
 
-- **Backend**: Node.js, Express, JSON database (db.json)
-- **Frontend**: React.js + Vite (Admin Dashboard)
-- **Mobile App**: React Native (Expo)
-- **Auth**: JWT
-- **UI**: React Native Paper
+- **Backend**: Node.js, Express, JSON database (db.json)  
+- **Frontend**: React.js + Vite (Admin Dashboard)  
+- **Mobile App**: React Native (Expo)  
+- **Auth**: JWT  
+- **UI**: React Native Paper  
 
 ---
 
