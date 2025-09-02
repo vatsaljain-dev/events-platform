@@ -49,4 +49,16 @@ router.post("/events/:id/:action", (req, res) => {
   res.json(event);
 });
 
+// Delete Event (admin only)
+router.delete("/events/:id", authMiddleware, requireAdmin, (req, res) => {
+  const { id } = req.params;
+  const index = db.data.events.findIndex((e) => e.id === id);
+  if (index === -1) return res.status(404).json({ message: "Event not found" });
+
+  db.data.events.splice(index, 1);
+  db.write();
+  res.json({ message: "Event deleted" });
+});
+
+
 export default router;

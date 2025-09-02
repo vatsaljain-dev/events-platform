@@ -5,7 +5,7 @@ import { authMiddleware, requireAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
 
-// Create admin
+// Create admin (baseURL/admin/user) (admin only)
 router.post("/signup", authMiddleware, requireAdmin, async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -25,17 +25,6 @@ router.post("/signup", authMiddleware, requireAdmin, async (req, res) => {
   await db.write();
 
   res.json({ message: "Admin created successfully", user: newAdmin });
-});
-
-// Delete event (admin only)
-router.delete("/events/:id", authMiddleware, requireAdmin, (req, res) => {
-  const { id } = req.params;
-  const index = db.data.events.findIndex((e) => e.id === id);
-  if (index === -1) return res.status(404).json({ message: "Event not found" });
-
-  db.data.events.splice(index, 1);
-  db.write();
-  res.json({ message: "Event deleted" });
 });
 
 export default router;
