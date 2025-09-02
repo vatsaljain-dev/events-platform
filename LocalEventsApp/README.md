@@ -1,50 +1,103 @@
-# Welcome to your Expo app 👋
+## 🏗️ Folder Overview
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This Folder consists of three parts:
 
-## Get started
+1. **Backend** – Node.js/Express API  
+   - Handles events, users, and chat data.  
+   - Provides REST endpoints for the app & dashboard.  
+   - ✅ Already hosted at: https://events-platform-backend-mkn0.onrender.com  
 
-1. Install dependencies
+2. **Mobile App (LocalEventsApp)** – React Native + Expo  
+   - User-facing app to view, create, and chat about events.  
+   - ⚡ Requires local setup  
 
+---
+
+## 🚀 Getting Started
+
+
+### ▶️ Run Backend Locally
+1. Navigate to the backend folder:
+   ```bash
+   cd events-backend
+   ```
+2. Install dependencies:
    ```bash
    npm install
    ```
+3. Start the backend server:
+   ```bash
+   node server.js
+   ```
+4. The backend will run at:
+   ```
+   http://localhost:4000
+   ```
 
-2. Start the app
+✅ Use `http://192.168.x.x:4000` (your LAN IP) when connecting from **mobile app on Expo Go**.
 
+---
+
+## 📱 Running the Mobile App (Expo)
+
+Since backend and dashboard are already deployed, you only need to set up the **mobile app** locally.
+
+1. Navigate to the app folder:
+   ```bash
+   cd LocalEventsApp
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+3. Start the app:
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+This will start the Expo development server.  
+Use **Expo Go** app on your phone or an emulator to preview.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 🔧 Backend Configuration (Local vs Hosted)
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+The **Mobile App** need to point to the correct backend API.
+**Local:**
+```ts
+const API_URL = "http://192.168.x.x:4000";
+export default API_URL;
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+**Hosted (default):**
+```ts
+const API_URL = "https://events-platform-backend-mkn0.onrender.com";
+export default API_URL;
+```
 
-## Learn more
+---
 
-To learn more about developing your project with Expo, look at the following resources:
+### 📌 Mobile App (`LocalEventsApp/utils/config.js`)
+**Local:**
+```js
+const API_URL = "http://192.168.x.x:4000";
+export default API_URL;
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+**Hosted (default):**
+```js
+const API_URL = "https://events-platform-backend-mkn0.onrender.com";
+export default API_URL;
+```
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+⚠️ **Important Notes:**  
+- Always include `:4000` when using the local backend since it runs on **port 4000**.  
+- Replace `192.168.x.x` with your actual **LAN IP** (find using `ifconfig` / `ipconfig`).  
+- On **Expo Go**, you must use your **LAN IP**, not `localhost` or `127.0.0.1`.  
+- For production builds, always use the **hosted backend** URL.  
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---

@@ -1,69 +1,105 @@
-# React + TypeScript + Vite
+## 🏗️ Folder Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This folder consists of three parts:
 
-Currently, two official plugins are available:
+**Frontend (Admin Dashboard)** – React.js Web App  
+   - Used by admins to manage events, users, and create admins.  
+   - ✅ Already hosted at: https://localeventsapp-admin-dashboard.netlify.app  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🖥️ Running Locally (Backend + Admin Dashboard)
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+By default, the backend and dashboard are already hosted, but you can also run them locally for development.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### ▶️ Run Backend Locally
+1. Navigate to the backend folder:
+   ```bash
+   cd events-backend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the backend server:
+   ```bash
+   node server.js
+   ```
+4. The backend will run at:
+   ```
+   http://localhost:4000
+   ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+✅ Use `http://192.168.x.x:4000` (your LAN IP) when connecting from **Admin Dashboard**.
+
+---
+
+### ▶️ Run Admin Dashboard Locally
+1. Navigate to the dashboard folder:
+   ```bash
+   cd admin-dashboard
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the dev server:
+   ```bash
+   npm run dev
+   ```
+4. The dashboard will run at:
+   ```
+   http://localhost:5173
+   ```
+
+---
+
+Since backend and dashboard are already deployed, you only need to set up the **mobile app** locally.
+
+1. Navigate to the app folder:
+   ```bash
+   cd LocalEventsApp
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+3. Start the app:
+   ```bash
+   npx expo start
+   ```
+
+This will start the Expo development server.  
+Use **Expo Go** app on your phone or an emulator to preview.
+
+---
+
+## 🔧 Backend Configuration (Local vs Hosted)
+
+The **Admin Dashboard** need to point to the correct backend API.
+
+### 📌 Admin Dashboard (`admin-dashboard/src/config.ts`)
+**Local:**
+```ts
+const API_URL = "http://192.168.x.x:4000";
+export default API_URL;
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Hosted (default):**
+```ts
+const API_URL = "https://events-platform-backend-mkn0.onrender.com";
+export default API_URL;
 ```
+
+---
+
+⚠️ **Important Notes:**  
+- Always include `:4000` when using the local backend since it runs on **port 4000**.  
+- Replace `192.168.x.x` with your actual **LAN IP** (find using `ifconfig` / `ipconfig`).  
+- On **Expo Go**, you must use your **LAN IP**, not `localhost` or `127.0.0.1`.  
+- For production builds, always use the **hosted backend** URL.  
+
+---
