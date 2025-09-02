@@ -1,9 +1,15 @@
 import express from "express";
 import db from "../db.js";
-
+import { authMiddleware, requireAdmin } from "../middleware/auth.js";
 const router = express.Router();
 
-// Update user profile
+
+// Get all users (admin only)
+router.get("/users", authMiddleware, requireAdmin, (req, res) => {
+  res.json(db.data.users);
+});
+
+// ✅ Update user profile
 router.put("/users/:id", (req, res) => {
   const { id } = req.params;
   const { bio, interests } = req.body;
@@ -18,7 +24,7 @@ router.put("/users/:id", (req, res) => {
   res.json(user);
 });
 
-// Calculate user rating
+// ✅ Calculate user rating
 router.post("/users/rating", (req, res) => {
   const { id } = req.body;
   const hostedEvents = db.data.events.filter((e) => e.hostId === String(id));

@@ -5,11 +5,6 @@ import { authMiddleware, requireAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
 
-// Get all users (admin only)
-router.get("/users", authMiddleware, requireAdmin, (req, res) => {
-  res.json(db.data.users);
-});
-
 // Create admin
 router.post("/signup", authMiddleware, requireAdmin, async (req, res) => {
   const { name, email, password } = req.body;
