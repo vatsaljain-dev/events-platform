@@ -4,7 +4,7 @@ This folder consists of three parts:
 
 **Frontend (Admin Dashboard)** – React.js Web App  
    - Used by admins to manage events, users, and create admins.  
-   - ✅ Already hosted at: https://localeventsapp-admin-dashboard.netlify.app  
+   <!-- - ✅ Already hosted at: https://localeventsapp-admin-dashboard.netlify.app   -->
 
 
 ## 🚀 Getting Started
@@ -88,11 +88,11 @@ const API_URL = "http://192.168.x.x:4000";
 export default API_URL;
 ```
 
-**Hosted (default):**
+<!-- **Hosted (default):**
 ```ts
 const API_URL = "https://events-platform-backend-mkn0.onrender.com";
 export default API_URL;
-```
+``` -->
 
 ---
 

@@ -5,7 +5,7 @@ This Folder consists of three parts:
 1. **Backend** – Node.js/Express API  
    - Handles events, users, and chat data.  
    - Provides REST endpoints for the app & dashboard.  
-   - ✅ Already hosted at: https://events-platform-backend-mkn0.onrender.com  
+   <!-- - ✅ Already hosted at: https://events-platform-backend-mkn0.onrender.com   -->
 
 2. **Mobile App (LocalEventsApp)** – React Native + Expo  
    - User-facing app to view, create, and chat about events.  
@@ -71,11 +71,11 @@ const API_URL = "http://192.168.x.x:4000";
 export default API_URL;
 ```
 
-**Hosted (default):**
+<!-- **Hosted (default):**
 ```ts
 const API_URL = "https://events-platform-backend-mkn0.onrender.com";
 export default API_URL;
-```
+``` -->
 
 ---
 
@@ -86,11 +86,11 @@ const API_URL = "http://192.168.x.x:4000";
 export default API_URL;
 ```
 
-**Hosted (default):**
+<!-- **Hosted (default):**
 ```js
 const API_URL = "https://events-platform-backend-mkn0.onrender.com";
 export default API_URL;
-```
+``` -->
 
 ---
 

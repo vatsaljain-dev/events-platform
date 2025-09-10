@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AdminSignupForm from "../components/AdminSignupForm";
 import API_URL from "../config";
 import { useNavigate } from "react-router-dom";
@@ -29,34 +29,69 @@ type User = {
   rating?: number;
 };
 
+type ChatMessage = {
+  id: string;
+  eventId: string;
+  userId: string;
+  userName: string;
+  text: string;
+  timestamp: string;
+};
+
+type ChatSummary = {
+  eventId: string;
+  eventName: string;
+  lastMessage: string;
+  lastMessageTime: string | null;
+};
+
 export default function AdminDashboard() {
   const [section, setSection] = useState("events");
   const [events, setEvents] = useState<Event[]>([]);
   const [users, setUsers] = useState<User[]>([]);
+  const [chatSummary, setChatSummary] = useState<ChatSummary[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
+
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
+  // Fetch events
+  const fetchEventsCall = useCallback(async () => {
+    const res = await fetch(`${API_URL}/events`);
+    const data = await res.json();
+    setEvents(data);
+  }, []); // no dependencies needed here
+
+  // Fetch users
+  const fetchUsersCall = useCallback(async () => {
+    const res = await fetch(`${API_URL}/users`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
+    setUsers(data);
+  }, [token]);
+
+  // Fetch chat summary
+  const fetchChatSummaryCall = useCallback(async () => {
+    const res = await fetch(`${API_URL}/events/chat-summary`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
+    setChatSummary(data);
+  }, [token]);
+
   useEffect(() => {
     if (!token) return;
-    if (section === "events") {
-      fetch(`${API_URL}/events`)
-        .then((res) => res.json())
-        .then(setEvents);
-    }
-
-    if (section === "users") {
-      fetch(`${API_URL}/users`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then((res) => res.json())
-        .then(setUsers);
-    }
-  }, [token, section]);
+    if (section === "events") fetchEventsCall();
+    if (section === "users") fetchUsersCall();
+    if (section === "chats") fetchChatSummaryCall();
+  }, [token, section, fetchEventsCall, fetchUsersCall, fetchChatSummaryCall]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    navigate("/login")
+    navigate("/login");
   };
 
   const fetchEvents = async () => {
@@ -79,6 +114,35 @@ export default function AdminDashboard() {
     }
   };
 
+  const loadMessages = async (eventId: string) => {
+    setSelectedEvent(eventId);
+    const res = await fetch(`${API_URL}/events/${eventId}/chat`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
+    setMessages(data.reverse());
+  };
+
+
+  const deleteMessage = async (messageId: string) => {
+  const confirmDelete = window.confirm("Are you sure you want to delete this message?");
+  if (!confirmDelete) return;
+
+  const res = await fetch(`${API_URL}/events/chat/${messageId}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (res.ok && selectedEvent) {
+    await loadMessages(selectedEvent);
+    await fetchChatSummaryCall();
+  } else {
+    const err = await res.json();
+    alert(err.message || "Failed to delete message");
+  }
+};
+
+
   return (
     <div className="dashboard-container">
       {/* Sidebar */}
@@ -95,6 +159,16 @@ export default function AdminDashboard() {
           onClick={() => setSection("users")}
         >
           Users
+        </button>
+
+        <button
+          className={section === "chats" ? "active" : ""}
+          onClick={() => {
+            setSelectedEvent(null); // reset view
+            setSection("chats");
+          }}
+        >
+          Chats
         </button>
         <button
           className={section === "admins" ? "active" : ""}
@@ -193,6 +267,80 @@ export default function AdminDashboard() {
 
         {/* Admin Creation Section */}
         {section === "admins" && <AdminSignupForm />}
+
+        {/* Chats Section */}
+
+        {section === "chats" && (
+          <div className="chats-section">
+            {!selectedEvent ? (
+              <div>
+                <h2 className="chats-heading">Chats</h2>
+                <div className="chat-summary-list">
+                  {chatSummary.length === 0 && <p>No events with chats.</p>}
+                  {chatSummary.map((event) => (
+                    <div
+                      key={event.eventId}
+                      className="chat-summary-card"
+                      onClick={() => loadMessages(event.eventId)}
+                    >
+                      <div className="chat-summary-header">
+                        <h3>{event.eventName}</h3>
+                        {event.lastMessageTime && (
+                          <small>
+                            {new Date(event.lastMessageTime).toLocaleString()}
+                          </small>
+                        )}
+                      </div>
+                      <p
+                        className={`chat-summary-message ${
+                          event.lastMessage ? "has-message" : "no-message"
+                        }`}
+                      >
+                        {event.lastMessage || "No messages yet"}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="chat-container">
+                <div className="chat-header">
+                  <button
+                    className="back-btn"
+                    onClick={() => setSelectedEvent(null)}
+                  >
+                    ← Back
+                  </button>
+                  <h2>Chat Messages</h2>
+                </div>
+
+                <div className="chat-messages">
+                  {messages.length === 0 ? (
+                    <p>No messages yet.</p>
+                  ) : (
+                    messages.map((msg) => (
+                      <div key={msg.id} className="chat-message-card">
+                        <div className="chat-message-content">
+                          <strong>{msg.userName}</strong>
+                          <p>{msg.text}</p>
+                          <small>
+                            {new Date(msg.timestamp).toLocaleString()}
+                          </small>
+                        </div>
+                        <button
+                          className="delete-msg"
+                          onClick={() => deleteMessage(msg.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
